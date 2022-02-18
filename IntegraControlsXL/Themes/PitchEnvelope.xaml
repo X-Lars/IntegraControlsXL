@@ -2,39 +2,38 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:IntegraControlsXL">
     
-    <Style x:Name="PitchEnvelopeStyle" TargetType="{x:Type local:PitchEnvelope}">
+    <!--<Style x:Name="PitchEnvelopeStyle" TargetType="{x:Type local:PitchEnvelope}">
 
-        <!-- If the background is transparent, the control will use the background of the parent window. -->
+        --><!-- If the background is transparent, the control will use the background of the parent window. --><!--
         <Setter Property="Background" Value="Transparent"/>
 
-        <!-- Sets the color of the graph data line. -->
+        --><!-- Sets the color of the graph data line. --><!--
         <Setter Property="Foreground" Value="Orange"/>
 
-        <!-- Border around the control, use transparent to hide the border since the border thickness has no effect. -->
+        --><!-- Border around the control, use transparent to hide the border since the border thickness has no effect. --><!--
         <Setter Property="BorderBrush" Value="Transparent"/>
 
-        <!-- Has no effect, use border brush with transparent to hide. -->
+        --><!-- Has no effect, use border brush with transparent to hide. --><!--
         <Setter Property="BorderThickness" Value="1"/>
 
-        <!-- Control dimensions. -->
+        --><!-- Control dimensions. --><!--
         <Setter Property="Width" Value="200"/>
         <Setter Property="Height" Value="100"/>
 
-        <!--<Setter Property="ClipToBounds" Value="True"/>-->
+        --><!--<Setter Property="ClipToBounds" Value="True"/>--><!--
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:PitchEnvelope}">
 
-                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                    <Grid 
                             Width="{TemplateBinding Width}" 
                             Height="{TemplateBinding Height}">
 
                         <ContentPresenter/>
 
-                    </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 </ResourceDictionary>

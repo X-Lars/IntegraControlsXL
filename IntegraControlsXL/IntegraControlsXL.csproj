@@ -5,4 +5,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="StylesXL">
+      <HintPath>..\..\..\StylesXL\StylesXL\StylesXL\bin\Debug\net6.0-windows\StylesXL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
