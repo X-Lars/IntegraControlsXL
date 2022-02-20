@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using StylesXL;
-
+using StylesXL.Extensions;
 namespace IntegraControlsXL
 {
     internal static class Styles
@@ -28,9 +28,10 @@ namespace IntegraControlsXL
             GraphSelected          = StyleManager.Brush(StylesXL.Brushes.ControlSelected);
             GraphSelectedHighlight = StyleManager.Brush(StylesXL.Brushes.ControlHighlight);
             GraphTint              = StyleManager.Brush(StylesXL.Brushes.Tint);
-
+            
             GraphBorderPen     = new Pen(GraphBorder, 1);
             GraphConstraintPen = new Pen(GraphTint, 1) { DashStyle = DashStyles.Dash };
+            GraphGridPen       = new Pen(GraphBorder.Alpha(), 0.25) { DashStyle = DashStyles.Dot };
             GraphSelectedPen   = new Pen(GraphSelected, 1);
 
             GraphPattern = new DrawingBrush()
@@ -61,5 +62,6 @@ namespace IntegraControlsXL
         public static Pen GraphBorderPen { get; private set; }
         public static Pen GraphConstraintPen { get; private set; }
         public static Pen GraphSelectedPen { get; private set; }
+        public static Pen GraphGridPen { get; private set; }
     }
 }

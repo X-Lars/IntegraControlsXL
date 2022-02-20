@@ -110,6 +110,11 @@ namespace IntegraControlsXL.Common
         /// </summary>
         public bool ShowValues { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets wheter the grid lines are rendered.
+        /// </summary>
+        public bool ShowGrid { get; set; } = false;
+
         #endregion
 
         #region Methods
@@ -226,13 +231,16 @@ namespace IntegraControlsXL.Common
             dc.DrawRectangle(Styles.GraphBackground, null, new Rect(0, 0, ActualWidth, ActualHeight));
 
             // DRAW GRID
-            //for (int x = 0; x < Segments.CountX; x++)
-            //{
-            //    for (int y = 0; y < Segments.CountY; y++)
-            //    {
-            //        dc.DrawRectangle(null, new Pen(Styles.GraphBorder, 0.1), Segments[x, y]);
-            //    }
-            //}
+            if (ShowGrid)
+            {
+                for (int x = 0; x < Segments.CountX; x++)
+                {
+                    for (int y = 0; y < Segments.CountY; y++)
+                    {
+                        dc.DrawRectangle(null, Styles.GraphGridPen, Segments[x, y]);
+                    }
+                }
+            }
 
             // DRAW CONTROL POINTS
             for (int i = 0; i < CP.Length; i++)

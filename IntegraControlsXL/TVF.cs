@@ -9,6 +9,7 @@ namespace IntegraControlsXL
     {
         public TVF() : base(1, 4, 4) 
         {
+            ShowGrid = true;
         }
 
         public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register("FilterType", typeof(IntegraTVFFilterType), typeof(TVF), new FrameworkPropertyMetadata(IntegraTVFFilterType.LPF, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update));

@@ -210,7 +210,7 @@ namespace IntegraControlsXL.Common
                     {
                         _Parent.SetValue(_PropertyY, (double)value);
                         _ValueY = value;
-                        Debug.Print($"{_PropertyX.Name}: {value}");
+                        Debug.Print($"{_PropertyY.Name}: {value}");
                     }
                 }
             }
