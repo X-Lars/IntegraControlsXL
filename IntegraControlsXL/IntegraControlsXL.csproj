@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="IntegraXL">
+      <HintPath>..\..\..\Integra\IntegraXL\IntegraXL\bin\Debug\net6.0\IntegraXL.dll</HintPath>
+    </Reference>
     <Reference Include="StylesXL">
       <HintPath>..\..\..\StylesXL\StylesXL\StylesXL\bin\Debug\net6.0-windows\StylesXL.dll</HintPath>
     </Reference>

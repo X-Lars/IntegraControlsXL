@@ -177,7 +177,9 @@ namespace IntegraControlsXL.Common
         /// <returns>A segment with the dimension of the column at the specified index.</returns>
         public Segment Column(int index)
         {
-            //Debug.Print($"Column: {index} X:{this[index, 0].X}, Y:{this[index, 0].Y} | SX: {this[index, 0].SX}, SY:{CountY * SY}");
+            if (CountX == 0)
+                return new Segment(0, 0, 0, 0);
+
             return new Segment(this[index, 0].X, this[index, 0].Y, this[index, 0].SX, SY);
         }
 
@@ -191,6 +193,9 @@ namespace IntegraControlsXL.Common
         /// </i></remarks>
         public Segment Row(int index)
         {
+            if (CountY == 0)
+                return new Segment(0, 0, 0, 0);
+
             return new Segment(this[0, index].X, this[0, index].Y, CountX * SX, this[0, index].SY);
         }
 

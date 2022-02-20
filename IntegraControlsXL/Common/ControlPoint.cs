@@ -4,6 +4,8 @@ using System.Windows;
 
 namespace IntegraControlsXL.Common
 {
+    // TODO: Linked offset / update without creating new
+
     /// <summary>
     /// Defines a point structure that can be constrained in movement.
     /// </summary>
@@ -76,7 +78,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Gets the control point's graph limits.
         /// </summary>
-        public readonly Limit Limit;
+        private readonly Limit _Limit;
 
         /// <summary>
         /// Gets the minimal value of the property associated to the X axis.
@@ -105,7 +107,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Default constructor for internal use.
         /// </summary>
-        internal ControlPoint() { }
+        internal ControlPoint() { IsVisble = false; }
 
         
 
@@ -133,7 +135,7 @@ namespace IntegraControlsXL.Common
             MinY = minY;
             MaxY = maxY;
 
-            Limit = limit;
+            _Limit = limit;
 
             if(limit.MinX == limit.MaxX)
             {
@@ -150,17 +152,25 @@ namespace IntegraControlsXL.Common
             }
             else
             {
-                Y = (_FactorY * _ValueY) + (_OffsetY * _FactorY);
+                Y = limit.MinY + (_FactorY * _ValueY) + (_OffsetY * _FactorY);
             }
 
-            Debug.Print($"{this}");
+            //Debug.Print($"{this}");
         }
 
         #endregion
 
         #region Properties
 
-        public string Name => _PropertyX.Name;
+        public string NameX => _PropertyX != null ? _PropertyX.Name : default;
+        public string NameY => _PropertyY != null ? _PropertyY.Name : default;
+
+        public bool IsVisble { get; set; } = true;
+        
+        public Limit Limit
+        {
+            get => _Limit ?? new Limit(0, 0, 0, 0);
+        }
 
         /// <summary>
         /// Gets the value from control point's X axis.
@@ -178,6 +188,7 @@ namespace IntegraControlsXL.Common
                     {
                         _Parent.SetValue(_PropertyX, (double)value);
                         _ValueX = value;
+                        Debug.Print($"{_PropertyX.Name}: {value}");
                     }
                 }
             }
@@ -199,6 +210,7 @@ namespace IntegraControlsXL.Common
                     {
                         _Parent.SetValue(_PropertyY, (double)value);
                         _ValueY = value;
+                        Debug.Print($"{_PropertyX.Name}: {value}");
                     }
                 }
             }
@@ -209,7 +221,7 @@ namespace IntegraControlsXL.Common
         /// </summary>
         public double CX
         {
-            get { return (Limit.MaxX - Limit.MinX) / 2; }
+            get { return (_Limit.MaxX - _Limit.MinX) / 2; }
         }
 
         /// <summary>
@@ -217,7 +229,7 @@ namespace IntegraControlsXL.Common
         /// </summary>
         public double CY
         {
-            get { return (Limit.MaxY - Limit.MinY) / 2; }
+            get { return (_Limit.MaxY - _Limit.MinY) / 2; }
         }
 
         /// <summary>
@@ -231,7 +243,7 @@ namespace IntegraControlsXL.Common
             get => _X;
             set
             {
-                value = value < Limit.MinX ? Limit.MinX : value > Limit.MaxX ? Limit.MaxX : value;
+                value = value < _Limit.MinX ? _Limit.MinX : value > _Limit.MaxX ? _Limit.MaxX : value;
 
                 if (_X != value)
                 {
@@ -251,7 +263,7 @@ namespace IntegraControlsXL.Common
             get => _Y;
             set
             {
-                value = value < Limit.MinY ? Limit.MinY : value > Limit.MaxY ? Limit.MaxY : value;
+                value = value < _Limit.MinY ? _Limit.MinY : value > _Limit.MaxY ? _Limit.MaxY : value;
 
                 if (_Y != value)
                 {
@@ -286,7 +298,7 @@ namespace IntegraControlsXL.Common
         /// <returns>A string that represents the current <see cref="ControlPoint"/>.</returns>
         public override string ToString()
         {
-            return $"X:{X}, Y:{Y} | Min X:{Limit.MinX}, Max X:{Limit.MaxX}, Val X: {ValueX} | Min Y:{Limit.MinY}, Max Y:{Limit.MaxY}, Val Y:{ValueY}";
+            return $"X:{X}, Y:{Y} | Min X:{_Limit.MinX}, Max X:{_Limit.MaxX}, Val X: {ValueX} | Min Y:{_Limit.MinY}, Max Y:{_Limit.MaxY}, Val Y:{ValueY}";
         }
 
         #endregion
@@ -299,6 +311,17 @@ namespace IntegraControlsXL.Common
     {
         public ControlPointX(DependencyObject parent, DependencyProperty property, double min, double max, LimitX limit, double offset = 0) :
             base(parent, property, null, min, max, 0, 0, limit, offset)
+        { }
+
+    }
+
+    /// <summary>
+    /// Defines a <see cref="ControlPoint"/> constrained to the T axis that can move within the specified limit.
+    /// </summary>
+    public class ControlPointY : ControlPoint
+    {
+        public ControlPointY(DependencyObject parent, DependencyProperty property, double min, double max, LimitY limit, double offset = 0) :
+            base(parent, null, property, 0, 0, min, max,limit, 0, offset)
         { }
 
     }

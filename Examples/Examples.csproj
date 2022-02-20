@@ -10,4 +10,10 @@
     <ProjectReference Include="..\IntegraControlsXL\IntegraControlsXL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="IntegraXL">
+      <HintPath>..\..\..\Integra\IntegraXL\IntegraXL\bin\Debug\net6.0\IntegraXL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

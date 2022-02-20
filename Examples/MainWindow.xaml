@@ -8,10 +8,34 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <xl:ToneOffset Attack="0"
-                        Release="0"
-                        Decay="0"
-                        />
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <xl:ToneOffset Grid.Column="0" Grid.Row="0"
+                       Attack="0"
+                       Release="0"
+                       Decay="0"/>
+        <xl:PitchEnvelope Grid.Column="1" Grid.Row="0"
+                          Level00="0"
+                          Level01="10"
+                          Level02="20"
+                          Level03="-10"
+                          Level04="-30"
+                          Time01="5"
+                          Time02="10"
+                          Time03="10"
+                          Time04="8"/>
+        <xl:Vibrato Grid.Column="0" Grid.Row="1"
+                    Delay="0"
+                    Rate="0"
+                    Depth="0"/>
+        <xl:TVF Grid.Column ="1" Grid.Row="1"
+                Cutoff="64"
+                Resonance="0"/>
     </Grid>
 </Window>

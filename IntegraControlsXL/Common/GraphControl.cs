@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using IntegraControlsXL.Extensions;
-using System.Diagnostics;
 using System;
 using System.Globalization;
 using StylesXL;
@@ -60,6 +59,7 @@ namespace IntegraControlsXL.Common
         {
             // Inverts the y axis of the graphs
             LayoutTransform = new ScaleTransform(1, -1);
+            ClipToBounds = true;
 
             CP = new ControlPoint[controlPoints];
 
@@ -104,6 +104,11 @@ namespace IntegraControlsXL.Common
         /// Gets the size of a single segment.
         /// </summary>
         public Size SegmentSize { get; private set; } = new Size();
+
+        /// <summary>
+        /// Gets or sets wheter the control point values labels are rendered.
+        /// </summary>
+        public bool ShowValues { get; set; } = true;
 
         #endregion
 
@@ -164,25 +169,36 @@ namespace IntegraControlsXL.Common
             //Debug.Print($"{e.Property.Name}: {e.NewValue}");
         }
 
+        public static object CoerceRound(DependencyObject d, object baseValue)
+        {
+            return Math.Round((double)baseValue);
+        }
+
+        /// <summary>
+        /// Render routine for derived classes to draw it's graph.
+        /// </summary>
+        /// <param name="dc">The drawing context for rendering.</param>
         public abstract void Render(DrawingContext dc);
 
-        
+        /// <summary>
+        /// Checks whether the mouse is over a control point.
+        /// </summary>
+        /// <param name="mouse">The current mouse position.</param>
+        /// <param name="index">The index of the hovered control point.</param>
+        /// <returns>True if the mouse is over a control point.</returns>
         private bool InvalidateIndex(Point mouse, out int index)
         {
             for (int i = 0; i < CP.Length; i++)
             {
                 if (mouse.Distance(CP[i]) < CP_HIT_DISTANCE)
                 {
-                    //Index = i;
                     index = i;
                     return true;
                 }
             }
 
-            //Index = -1;
             index = -1;
             return false;
-
         }
 
         #endregion
@@ -206,10 +222,10 @@ namespace IntegraControlsXL.Common
         {
             base.OnRender(dc);
             
-            // Background
+            // DRAW BACKGROUND
             dc.DrawRectangle(Styles.GraphBackground, null, new Rect(0, 0, ActualWidth, ActualHeight));
 
-            // Grid lines
+            // DRAW GRID
             //for (int x = 0; x < Segments.CountX; x++)
             //{
             //    for (int y = 0; y < Segments.CountY; y++)
@@ -218,58 +234,107 @@ namespace IntegraControlsXL.Common
             //    }
             //}
 
+            // DRAW CONTROL POINTS
+            for (int i = 0; i < CP.Length; i++)
+            {
+                if(CP[i].IsVisble)
+                    dc.DrawEllipse(Styles.GraphSelected, null, CP[i], 2, 2);
+            }
+
+            // DRAW CONSTRAINTS
+            if(Index != -1 && CP[Index].IsVisble)
+            {
+                if(CP[Index].MinX != CP[Index].MaxX)
+                {
+                    dc.DrawLine(Styles.GraphConstraintPen, new Point(0, CP[Index].Y), new Point(Segments.SX, CP[Index].Y));
+                }
+
+                if (CP[Index].MinY != CP[Index].MaxY)
+                {
+                    dc.DrawLine(Styles.GraphConstraintPen, new Point(CP[Index].X, 0), new Point(CP[Index].X, Segments.SY));
+                }
+            }
+
+            // RENDER DERIVED
             Render(dc);
 
-
-            if (Index != -1)
+            // DRAW SELECTED CONTROL POINT
+            if (Index != -1 && CP[Index].IsVisble)
             {
                 dc.DrawRectangle(Styles.GraphHighlight, null, new Rect(CP[Index].Limit.MinX, 0, CP[Index].Limit.SX, ActualHeight));
                 dc.DrawEllipse(Styles.GraphSelected, null, CP[Index], CP_HIT_RADIUS, CP_HIT_RADIUS);
             }
             
-            if (MouseIndex != -1)
+            // DRAW MOUSE OVER CONTROL POINT
+            if (MouseIndex != -1 && CP[MouseIndex].IsVisble)
             {
                 dc.DrawEllipse(Styles.GraphHighlight, null, CP[MouseIndex], CP_HIT_RADIUS,CP_HIT_RADIUS);
             }
 
-            if (Index != -1)
+            // DRAW PROPERY VALUE(S)
+            if (Index != -1 && CP[Index].IsVisble)
             {
-
-                // The text to show inside the label
-                FormattedText text = new FormattedText($"{CP[Index].Name}: {CP[Index].ValueX}" , CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
-                
-                // Convert the text to geometry to be able to get it's bounds
-                Geometry geo = text.BuildGeometry(new Point(CP[Index].X, CP[Index].Y));
-
-                // Mirror the text vertically
-                TransformGroup transform = new TransformGroup();
-
-                transform.Children.Add(new ScaleTransform(1, -1, 0, geo.Bounds.Y));
-                transform.Children.Add(new TranslateTransform(geo.Bounds.Height, 0));
-                if (CP[Index].X + geo.Bounds.Width > ActualWidth)
+                if (ShowValues)
                 {
-                    transform.Children.Add(new TranslateTransform(-geo.Bounds.Width - geo.Bounds.Height, 0));
+                    if (!string.IsNullOrEmpty(CP[Index].NameX))
+                    {
+                        FormattedText valueX = new FormattedText($"{CP[Index].NameX}: {CP[Index].ValueX}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
+                        Geometry geoX = valueX.BuildGeometry(new Point(0, 0));
+
+                        TransformGroup transform = new TransformGroup();
+                        transform.Children.Add(new ScaleTransform(1, -1, 0, 0));
+                        transform.Children.Add(new TranslateTransform(CP[Index].X + geoX.Bounds.Height, CP[Index].Y + geoX.Bounds.Height));
+                        geoX.Transform = transform;
+
+                        dc.DrawGeometry(Styles.GraphTint, null, geoX);
+                    }
+
+                    if (!string.IsNullOrEmpty(CP[Index].NameY))
+                    {
+                        FormattedText valueY = new FormattedText($"{CP[Index].NameY}: {CP[Index].ValueY}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
+                        Geometry geoY = valueY.BuildGeometry(new Point(0, 0));
+
+                        TransformGroup transform = new TransformGroup();
+                        transform.Children.Add(new ScaleTransform(1, -1, 0, 0));
+                        transform.Children.Add(new TranslateTransform(CP[Index].X - geoY.Bounds.Width / 2, CP[Index].Y + geoY.Bounds.Height * 3));
+                        geoY.Transform = transform;
+
+                        dc.DrawGeometry(Styles.GraphTint, null, geoY);
+                    }
                 }
-                if (CP[Index].Y - geo.Bounds.Height < 0)
+            }
+
+            // DRAW PROPERTY NAMES LABEL
+            if(MouseIndex != -1 && CP[MouseIndex].IsVisble)
+            {
+                var label = string.Empty;
+                var textX = CP[MouseIndex].NameX;
+                var textY = CP[MouseIndex].NameY;
+
+                if (!string.IsNullOrEmpty(textX))
+                    label = $" X: {textX} ";
+
+                if (!string.IsNullOrEmpty(textY))
+                    label += $" Y: {textY} ";
+
+                if(!string.IsNullOrEmpty(label))
                 {
-                    transform.Children.Add(new TranslateTransform(0, geo.Bounds.Height));
+                    FormattedText text = new FormattedText(label, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
+                    Geometry geo = text.BuildGeometry(new Point(0, 0));
+
+                    TransformGroup textTransform = new TransformGroup();
+
+                    textTransform.Children.Add(new ScaleTransform(1, -1, 0, 0));
+                    textTransform.Children.Add(new TranslateTransform(Segments.SX / 2 - geo.Bounds.Width / 2, geo.Bounds.Height * 2));
+
+                    geo.Transform = textTransform;
+                    
+                    Rect bounds = geo.Bounds;
+                    bounds.Inflate(2, 2);
+
+                    dc.DrawRectangle(Styles.GraphTint, null, bounds);
+                    dc.DrawGeometry(Styles.GraphHighlight, null, geo);
                 }
-                else if(CP[Index].Y + geo.Bounds.Height > ActualHeight)
-                {
-                    transform.Children.Add(new TranslateTransform(0, -geo.Bounds.Height));
-                }
-
-                geo.Transform = transform;
-
-                // Translate the text in -X so the cursor doesn't overlay
-                //TranslateTransform translateX = new TranslateTransform(-geo.Bounds.Width / 2, geo.Bounds.Height);
-
-                // Apply the transformations
-                //dc.PushTransform(mirrorY);
-                //dc.PushTransform(translateX);
-
-                dc.DrawRectangle(Styles.GraphTint, null, new Rect(geo.Bounds.X , geo.Bounds.Y , geo.Bounds.Width, geo.Bounds.Height));
-                dc.DrawGeometry(Styles.GraphHighlight, null, geo);
             }
         }
 
@@ -284,7 +349,7 @@ namespace IntegraControlsXL.Common
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             Cursor = Cursors.Arrow;
-            Focus();
+            
         }
 
         /// <summary>
@@ -313,6 +378,8 @@ namespace IntegraControlsXL.Common
 
                 InvalidateVisual();
             }
+
+            Focus();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -344,10 +411,14 @@ namespace IntegraControlsXL.Common
                 InvalidateVisual();
             }
         }
+        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        {
+            Index = -1;
+            InvalidateVisual();
+        }
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-
             if (Index == -1)
                 return;
 
@@ -396,14 +467,9 @@ namespace IntegraControlsXL.Common
                     break;
             }
 
-
             e.Handled = true;
         }
 
         #endregion
-
-        
-
-        
     }
 }

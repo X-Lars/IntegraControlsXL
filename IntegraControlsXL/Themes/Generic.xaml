@@ -6,8 +6,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/IntegraControlsXL;Component/Themes/GraphControl.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/IntegraControlsXL;Component/Themes/Keyboard.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/IntegraControlsXL;Component/Themes/ToneOffset.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
+    
 
     
 
