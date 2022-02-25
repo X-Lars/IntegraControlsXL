@@ -43,7 +43,7 @@ namespace IntegraControlsXL
         }
 
 
-        public override void Render(DrawingContext dc)
+        public override void RenderGraph(DrawingContext dc)
         {
             dc.DrawLine(Styles.GraphSelectedPen, new Point(Segments.X, 0), new Point(CP[0].X, CP[0].Y));
             dc.DrawLine(Styles.GraphSelectedPen, CP[0], CP[1]);

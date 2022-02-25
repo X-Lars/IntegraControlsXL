@@ -12,7 +12,7 @@ namespace IntegraControlsXL
             ShowGrid = true;
         }
 
-        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register("FilterType", typeof(IntegraTVFFilterType), typeof(TVF), new FrameworkPropertyMetadata(IntegraTVFFilterType.LPF, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update));
+        public static readonly DependencyProperty FilterTypeProperty = DependencyProperty.Register(nameof(FilterType), typeof(IntegraTVFFilterType), typeof(TVF), new FrameworkPropertyMetadata(IntegraTVFFilterType.LPF, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update));
         public static readonly DependencyProperty CutoffProperty     = DependencyProperty.Register(nameof(Cutoff), typeof(double), typeof(TVF), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
         public static readonly DependencyProperty ResonanceProperty  = DependencyProperty.Register(nameof(Resonance), typeof(double), typeof(TVF), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
 
@@ -233,7 +233,7 @@ namespace IntegraControlsXL
 
             return stream;
         }
-        public override void Render(DrawingContext dc)
+        public override void RenderGraph(DrawingContext dc)
         {
             switch (FilterType)
             {

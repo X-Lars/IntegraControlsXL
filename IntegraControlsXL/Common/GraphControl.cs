@@ -6,6 +6,7 @@ using IntegraControlsXL.Extensions;
 using System;
 using System.Globalization;
 using StylesXL;
+using System.Diagnostics;
 
 namespace IntegraControlsXL.Common
 {
@@ -180,10 +181,25 @@ namespace IntegraControlsXL.Common
         }
 
         /// <summary>
+        /// Render routine for derived classes to draw it's background.
+        /// </summary>
+        /// <param name="dc"></param>
+        /// <remarks><i>The second render layer, invoked directly after the graph's background rendering. </i></remarks>
+        public virtual void RenderBackground(DrawingContext dc) { }
+
+        /// <summary>
         /// Render routine for derived classes to draw it's graph.
         /// </summary>
         /// <param name="dc">The drawing context for rendering.</param>
-        public abstract void Render(DrawingContext dc);
+        /// <remarks><i>The middle render layer, invoked directly after the <see cref="RenderBackground(DrawingContext)"/> method.</i></remarks>
+        public abstract void RenderGraph(DrawingContext dc);
+
+        /// <summary>
+        /// Render routine for derived classes to overlay the rendered graph.
+        /// </summary>
+        /// <param name="dc"></param>
+        /// <remarks><i>The last render layer.</i></remarks>
+        public virtual void RenderOverlay(DrawingContext dc) { }
 
         /// <summary>
         /// Checks whether the mouse is over a control point.
@@ -263,8 +279,10 @@ namespace IntegraControlsXL.Common
                 }
             }
 
+            RenderBackground(dc);
+
             // RENDER DERIVED
-            Render(dc);
+            RenderGraph(dc);
 
             // DRAW SELECTED CONTROL POINT
             if (Index != -1 && CP[Index].IsVisble)
@@ -286,7 +304,7 @@ namespace IntegraControlsXL.Common
                 {
                     if (!string.IsNullOrEmpty(CP[Index].NameX))
                     {
-                        FormattedText valueX = new FormattedText($"{CP[Index].NameX}: {CP[Index].ValueX}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
+                        FormattedText valueX = new FormattedText($"{CP[Index].NameX}: {CP[Index].GetValueX()}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
                         Geometry geoX = valueX.BuildGeometry(new Point(0, 0));
 
                         TransformGroup transform = new TransformGroup();
@@ -299,7 +317,7 @@ namespace IntegraControlsXL.Common
 
                     if (!string.IsNullOrEmpty(CP[Index].NameY))
                     {
-                        FormattedText valueY = new FormattedText($"{CP[Index].NameY}: {CP[Index].ValueY}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
+                        FormattedText valueY = new FormattedText($"{CP[Index].NameY}: {CP[Index].GetValueY()}", CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
                         Geometry geoY = valueY.BuildGeometry(new Point(0, 0));
 
                         TransformGroup transform = new TransformGroup();
@@ -344,6 +362,8 @@ namespace IntegraControlsXL.Common
                     dc.DrawGeometry(Styles.GraphHighlight, null, geo);
                 }
             }
+
+            RenderOverlay(dc);
         }
 
         #endregion
@@ -431,6 +451,8 @@ namespace IntegraControlsXL.Common
                 return;
 
             bool CTRL_KEY_DOWN = e.KeyboardDevice.IsKeyDown(Key.RightCtrl) || e.KeyboardDevice.IsKeyDown(Key.LeftCtrl);
+
+            //int iFactor = CP[Index].IsInversed ? -1 : 1;
 
             switch (e.Key)
             {

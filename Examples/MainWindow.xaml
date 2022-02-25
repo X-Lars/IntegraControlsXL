@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Examples"
         xmlns:xl="clr-namespace:IntegraControlsXL;assembly=IntegraControlsXL"
+        xmlns:core="clr-namespace:IntegraXL.Core;assembly=IntegraXL"
+        xmlns:common="clr-namespace:IntegraXL.Common;assembly=IntegraXL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -16,11 +18,11 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <xl:ToneOffset Grid.Column="0" Grid.Row="0"
+        <!--<xl:ToneOffset Grid.Column="0" Grid.Row="0"
                        Attack="0"
                        Release="0"
-                       Decay="0"/>
-        <xl:Envelope Grid.Column="1" Grid.Row="0"
+                       Decay="0"/>-->
+        <!--<xl:Envelope Grid.Column="1" Grid.Row="0"
                           Level0="0"
                           Level1="10"
                           Level2="20"
@@ -29,12 +31,13 @@
                           Time1="5"
                           Time2="10"
                           Time3="10"
-                          Time4="8"/>
+                          Time4="8"/>-->
         <!--<xl:Vibrato Grid.Column="0" Grid.Row="1"
                     Delay="0"
                     Rate="0"
                     Depth="0"/>-->
-        <xl:StepLFO Grid.Column="0" Grid.Row="1"
+        <xl:StepLFO Grid.Column="1" Grid.Row="0"
+                    StepType="{x:Static core:IntegraStepLFOType.Type2}"
                     Step1="0"
                     Step2="0"
                     Step3="0"
@@ -51,8 +54,47 @@
                     Step14="0"
                     Step15="0"
                     Step16="0"/>
-        <xl:TVF Grid.Column ="1" Grid.Row="1"
+        <!--<xl:TVAEnvelope Grid.Column="1" Grid.Row="0"
+                        Level1="10"
+                        Level2="20"
+                        Level3="30"
+                        Time1="20"
+                        Time2="20"
+                        Time3="20"
+                        Time4="20"/>-->
+        <xl:LFO Grid.Column="0" Grid.Row="0"
+                DelayTime="0"
+                FadeMode="ONIN"
+                FadeTime="0"
+                Offset="-50"
+                Rate="32"
+                Waveform="SIN"/>
+        <!--<xl:LFO Grid.Column="1" Grid.Row="0"
+                DelayTime="64"
+                FadeMode="ONIN"
+                FadeTime="127"
+                Offset="0"
+                Rate="64"
+                Waveform="BENDUP"/>-->
+        
+        <xl:LFO Grid.Column="0" Grid.Row="1"
+                DelayTime="0"
+                Offset="0"
+                FadeMode="ONIN"
+                FadeTime="0"
+                Rate="128"
+                Waveform="BENDUP"/>
+
+        <xl:LFO Grid.Column="1" Grid.Row="1"
+                DelayTime="128"
+                Offset="0"
+                FadeMode="ONOUT"
+                FadeTime="64"
+                Rate="0"
+                Waveform="BENDUP"/>
+
+        <!--<xl:TVF Grid.Column ="1" Grid.Row="1"
                 Cutoff="64"
-                Resonance="0"/>
+                Resonance="0"/>-->
     </Grid>
 </Window>

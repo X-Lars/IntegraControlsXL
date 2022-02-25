@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IntegraXL.Core;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 
@@ -19,12 +21,12 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Stores a reference to the parent object.
         /// </summary>
-        private readonly GraphControl _Parent;
+        protected readonly GraphControl _Parent;
 
         /// <summary>
         /// Stores a reference to the property associated with the X value.
         /// </summary>
-        private readonly DependencyProperty _PropertyX;
+        protected readonly DependencyProperty _PropertyX;
 
         /// <summary>
         /// Stores a reference to the property associated with the Y value.
@@ -44,7 +46,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Stores the X value.
         /// </summary>
-        private double _ValueX;
+        protected double _ValueX;
 
         /// <summary>
         /// Stores the Y value.
@@ -64,7 +66,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Stores the X coördinate.
         /// </summary>
-        private double _X = 0;
+        protected double _X = 0;
 
         /// <summary>
         /// Stores the Y coördinate.
@@ -78,7 +80,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Gets the control point's graph limits.
         /// </summary>
-        private readonly Limit _Limit;
+        protected readonly Limit _Limit;
 
         /// <summary>
         /// Gets the minimal value of the property associated to the X axis.
@@ -130,6 +132,9 @@ namespace IntegraControlsXL.Common
             if (propertyY != null)
                 _ValueY = (double)_Parent.GetValue(propertyY);
 
+            if (minX > maxX)
+                IsInversed = true;
+
             MinX = minX;
             MaxX = maxX;
             MinY = minY;
@@ -166,7 +171,11 @@ namespace IntegraControlsXL.Common
         public string NameY => _PropertyY != null ? _PropertyY.Name : default;
 
         public bool IsVisble { get; set; } = true;
-        
+        public bool IsInversed { get; private set; }
+
+        public double FactorX => _FactorX;
+        public double FactorY => _FactorY;
+
         public Limit Limit
         {
             get => _Limit ?? new Limit(0, 0, 0, 0);
@@ -175,7 +184,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Gets the value from control point's X axis.
         /// </summary>
-        public double ValueX
+        public virtual double ValueX
         {
             get => _ValueX;
             set
@@ -197,7 +206,7 @@ namespace IntegraControlsXL.Common
         /// <summary>
         /// Gets the value from the control point's Y axis.
         /// </summary>
-        public double ValueY
+        public virtual double ValueY
         {
             get => _ValueY;
             set
@@ -238,7 +247,7 @@ namespace IntegraControlsXL.Common
         /// <remarks><i>
         /// The associated callback is invoked on set.
         /// </i></remarks>
-        public double X
+        public virtual double X
         {
             get => _X;
             set
@@ -258,7 +267,7 @@ namespace IntegraControlsXL.Common
         /// <remarks><i>
         /// The associated callback is invoked on set.
         /// </i></remarks>
-        public double Y
+        public virtual double Y
         {
             get => _Y;
             set
@@ -270,6 +279,16 @@ namespace IntegraControlsXL.Common
                     _Y = value;
                 }
             }
+        }
+
+        public virtual string GetValueX()
+        {
+            return ValueX.ToString();
+        }
+
+        public virtual string GetValueY()
+        {
+            return ValueY.ToString();
         }
 
         #endregion
@@ -326,4 +345,21 @@ namespace IntegraControlsXL.Common
 
     }
 
+    public class RateControlPoint : ControlPointX
+    {
+        public RateControlPoint(DependencyObject parent, DependencyProperty property, double min, double max, LimitX limit, double offset = 0)
+            : base(parent, property, min, max, limit, offset) { }
+
+        public override string GetValueX()
+        {
+            if(ValueX < 128)
+                return base.GetValueX();
+            else
+            {
+                int index = (int)ValueX - 128;
+                IntegraNoteRates rate = (IntegraNoteRates)index;
+                return $"{(string)TypeDescriptor.GetConverter(rate).ConvertTo(rate, typeof(string))}";
+            }
+        }
+    }
 }

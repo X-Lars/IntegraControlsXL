@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using IntegraXL.Core;
+using System.Diagnostics;
 
 namespace IntegraControlsXL
 {
@@ -16,22 +18,32 @@ namespace IntegraControlsXL
             
         }
 
-        public static readonly DependencyProperty Step1Property  = DependencyProperty.Register("LFO Step 1",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step2Property  = DependencyProperty.Register("LFO Step 2",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step3Property  = DependencyProperty.Register("LFO Step 3",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step4Property  = DependencyProperty.Register("LFO Step 4",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step5Property  = DependencyProperty.Register("LFO Step 5",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step6Property  = DependencyProperty.Register("LFO Step 6",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step7Property  = DependencyProperty.Register("LFO Step 7",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step8Property  = DependencyProperty.Register("LFO Step 8",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step9Property  = DependencyProperty.Register("LFO Step 9",  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step10Property = DependencyProperty.Register("LFO Step 10", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step11Property = DependencyProperty.Register("LFO Step 11", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step12Property = DependencyProperty.Register("LFO Step 12", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step13Property = DependencyProperty.Register("LFO Step 13", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step14Property = DependencyProperty.Register("LFO Step 14", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step15Property = DependencyProperty.Register("LFO Step 15", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
-        public static readonly DependencyProperty Step16Property = DependencyProperty.Register("LFO Step 16", typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+
+
+        public static readonly DependencyProperty StepTypeProperty = DependencyProperty.Register(nameof(StepType), typeof(IntegraStepLFOType), typeof(StepLFO), new FrameworkPropertyMetadata(IntegraStepLFOType.Type1, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update));
+
+        public static readonly DependencyProperty Step1Property  = DependencyProperty.Register(nameof(Step1),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step2Property  = DependencyProperty.Register(nameof(Step2),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step3Property  = DependencyProperty.Register(nameof(Step3),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step4Property  = DependencyProperty.Register(nameof(Step4),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step5Property  = DependencyProperty.Register(nameof(Step5),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step6Property  = DependencyProperty.Register(nameof(Step6),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step7Property  = DependencyProperty.Register(nameof(Step7),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step8Property  = DependencyProperty.Register(nameof(Step8),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step9Property  = DependencyProperty.Register(nameof(Step9),  typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step10Property = DependencyProperty.Register(nameof(Step10), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step11Property = DependencyProperty.Register(nameof(Step11), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step12Property = DependencyProperty.Register(nameof(Step12), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step13Property = DependencyProperty.Register(nameof(Step13), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step14Property = DependencyProperty.Register(nameof(Step14), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step15Property = DependencyProperty.Register(nameof(Step15), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+        public static readonly DependencyProperty Step16Property = DependencyProperty.Register(nameof(Step16), typeof(double), typeof(StepLFO), new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, Update, CoerceRound));
+
+        public IntegraStepLFOType StepType
+        {
+            get { return (IntegraStepLFOType)GetValue(StepTypeProperty); }
+            set { SetValue(StepTypeProperty, value); }
+        }
 
         public double Step1  { get { return (double)GetValue(Step1Property); }  set { SetValue(Step1Property,  value); } }
         public double Step2  { get { return (double)GetValue(Step2Property); }  set { SetValue(Step2Property,  value); } }
@@ -56,7 +68,12 @@ namespace IntegraControlsXL
             var sy = SegmentSize.Y;
             var sx = SegmentSize.X;
 
-            CP[0]  = new ControlPointY(this, Step1Property,  -36, 36, new LimitY(sx / 2, sy, sy * 2), 36);
+            double start = 0;
+
+            if (StepType == IntegraStepLFOType.Type1)
+                start = sx / 2;
+
+            CP[0]  = new ControlPointY(this, Step1Property,  -36, 36, new LimitY(start, sy, sy * 2), 36);
             CP[1]  = new ControlPointY(this, Step2Property,  -36, 36, new LimitY(CP[0].X  + sx, sy, sy * 2), 36);
             CP[2]  = new ControlPointY(this, Step3Property,  -36, 36, new LimitY(CP[1].X  + sx, sy, sy * 2), 36);
             CP[3]  = new ControlPointY(this, Step4Property,  -36, 36, new LimitY(CP[2].X  + sx, sy, sy * 2), 36);
@@ -76,33 +93,55 @@ namespace IntegraControlsXL
             base.Update();
         }
 
-        public override void Render(DrawingContext dc)
+        public override void RenderBackground(DrawingContext dc)
+        {
+            dc.DrawLine(Styles.GraphGridPen, new Point(0, Segments.CY), new Point(Segments.SX, Segments.CY));
+
+            
+        }
+
+        public override void RenderGraph(DrawingContext dc)
         {
             var sx = SegmentSize.X;
             var scx = sx / 2;
 
-            if (Index != -1)
+            if (StepType == IntegraStepLFOType.Type1)
             {
-                Rect rect = CP[Index].Limit;
-                rect.Inflate(scx, 0);
-                dc.DrawRectangle(Styles.GraphHighlight, null, rect);
+                if (Index != -1)
+                {
+                    Rect rect = CP[Index].Limit;
+                    rect.Inflate(scx, 0);
+                    dc.DrawRectangle(Styles.GraphHighlight, null, rect);
+                }
+
+                for (int i = 0; i < CP.Length; i++)
+                {
+                    dc.DrawLine(Styles.GraphSelectedPen, new Point(CP[i].X - scx, CP[i].Y), new Point(CP[i].X + scx, CP[i].Y));
+                }
+
+                for (int i = 1; i < CP.Length; i++)
+                {
+                    dc.DrawLine(Styles.GraphSelectedPen, new Point(i * sx, CP[i].Y), new Point(i * sx, CP[i - 1].Y));
+                }
+
+                dc.DrawLine(Styles.GraphSelectedPen, new Point(0, Segments.CY), new Point(0, CP[0].Y));
+                dc.DrawLine(Styles.GraphSelectedPen, new Point(Segments.SX, Segments.CY), new Point(Segments.SX, CP[15].Y));
             }
-
-            dc.DrawLine(Styles.GraphGridPen, new Point(0, Segments.CY), new Point(Segments.SX, Segments.CY));
-
-            for (int i = 0; i < CP.Length; i++)
+            else
             {
-                dc.DrawLine(Styles.GraphSelectedPen, new Point(CP[i].X - scx, CP[i].Y), new Point(CP[i].X + scx, CP[i].Y));
+                if (Index != -1)
+                {
+                    Rect rect = new Rect(CP[Index].X, CP[Index].Limit.MinY, sx, SegmentSize.Y * 2);
+                    dc.DrawRectangle(Styles.GraphHighlight, null, rect);
+                }
+
+                for (int i = 0; i < CP.Length - 1; i++)
+                {
+                    dc.DrawLine(Styles.GraphSelectedPen, CP[i], CP[i+1]);
+                }
+
+                dc.DrawLine(Styles.GraphSelectedPen, CP[CP.Length - 1], new Point(Segments.SX, Segments.CY));
             }
-
-            for (int i = 1; i < CP.Length; i++)
-            {
-                dc.DrawLine(Styles.GraphSelectedPen, new Point(i * sx, CP[i].Y), new Point(i * sx, CP[i - 1].Y));
-            }
-
-            dc.DrawLine(Styles.GraphSelectedPen, new Point(0, Segments.CY), new Point(0, CP[0].Y));
-            dc.DrawLine(Styles.GraphSelectedPen, new Point(Segments.SX, Segments.CY), new Point(Segments.SX, CP[15].Y));
-
             
         }
     }

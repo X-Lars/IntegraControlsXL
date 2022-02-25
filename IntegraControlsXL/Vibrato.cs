@@ -85,7 +85,7 @@ namespace IntegraControlsXL
             return stream;
         }
 
-        public override void Render(DrawingContext dc)
+        public override void RenderGraph(DrawingContext dc)
         {
             //if (!IsLoaded)
             //    return;
