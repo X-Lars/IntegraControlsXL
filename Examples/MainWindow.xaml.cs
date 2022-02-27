@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IntegraXL.Common;
+using IntegraXL.Core;
+
 namespace Examples
 {
     /// <summary>
@@ -24,6 +25,11 @@ namespace Examples
         public MainWindow()
         {
             InitializeComponent();
+            Lower = IntegraScales.C_;
+            Upper = IntegraScales.G9;
         }
+
+        public IntegraScales Lower { get; set; }
+        public IntegraScales Upper { get; set; }
     }
 }

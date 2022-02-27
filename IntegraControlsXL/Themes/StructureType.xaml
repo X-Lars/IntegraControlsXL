@@ -1,0 +1,280 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:xl="clr-namespace:IntegraControlsXL"
+                    xmlns:style="clr-namespace:StylesXL;assembly=StylesXL">
+    
+    <Style TargetType="{x:Type xl:StructureType}">
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey style:Styles, BackgroundBrush}}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey style:Styles, BorderBrush}}"/>
+        <Setter Property="BorderThickness" Value="{DynamicResource {ComponentResourceKey style:Styles, BorderThickness}}"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="MinWidth" Value="250"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type xl:StructureType}">
+                    
+                    <Border>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7"
+                                    BorderBrush="{DynamicResource {ComponentResourceKey style:Styles, BorderBrush}}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    Padding="5"/>
+
+                            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="7"
+                                    BorderBrush="{DynamicResource {ComponentResourceKey style:Styles, BorderBrush}}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    Padding="5"/>
+
+                            <!-- WAVE GENERATOR 1 -->
+                            <TextBlock x:Name="PART_WG1_Text"
+                                       Grid.Column="0" Grid.Row="0"
+                                       Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextDisabledBrush}}"
+                                       HorizontalAlignment="Center"
+                                       Margin="5"
+                                       Text="Partial 1"
+                                       VerticalAlignment="Center"/>
+
+                            <Border x:Name="PART_WG1_B0" Grid.Column="1" Grid.Row="0"
+                                    BorderBrush="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                           Text="WG"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG1_B1"
+                                    Grid.Column="2" Grid.Row="0"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG1_T1"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG1_B2"
+                                    Grid.Column="3" Grid.Row="0"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG1_T2"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG1_B3"
+                                    Grid.Column="4" Grid.Row="0"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG1_T3"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG1_B4"
+                                    Grid.Column="5" Grid.Row="0"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG1_T4"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVF"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG1_B5"
+                                    Grid.Column="6" Grid.Row="0"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG1_T5"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <!-- BOOSTER / RING MODULATOR-->
+                            <Border x:Name="PART_C_B1"
+                                    Grid.Column="3" Grid.Row="1"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_C_T1"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           Text="R"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_C_B2"
+                                    Grid.Column="4" Grid.Row="1"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_C_T2"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           Text="R"/>
+
+                            </Border>
+
+                            <!-- WAVE GENERATOR 2-->
+                            <TextBlock x:Name="PART_WG2_Text"
+                                       Grid.Column="0" Grid.Row="2"
+                                       Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextDisabledBrush}}"
+                                       HorizontalAlignment="Center"
+                                       Margin="5"
+                                       Text="Partial 2"/>
+
+                            <Border x:Name="PART_WG2_B0" Grid.Column="1" Grid.Row="2"
+                                    BorderBrush="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                           Text="WG"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG2_B1"
+                                    Grid.Column="2" Grid.Row="2"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG2_T1"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVF"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG2_B2"
+                                    Grid.Column="3" Grid.Row="2"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG2_T2"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG2_B3"
+                                    Grid.Column="4" Grid.Row="2"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG2_T3"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG2_B4"
+                                    Grid.Column="5" Grid.Row="2"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG2_T4"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVF"/>
+
+                            </Border>
+
+                            <Border x:Name="PART_WG2_B5"
+                                    Grid.Column="6" Grid.Row="2"
+                                    Background="{DynamicResource {ComponentResourceKey style:Styles, ControlSelectedBrush}}"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    Margin="2"
+                                    Padding="2">
+
+                                <TextBlock x:Name="PART_WG2_T5"
+                                           Foreground="{DynamicResource {ComponentResourceKey style:Styles, TextSelectedBrush}}"
+                                           HorizontalAlignment="Center"
+                                           Text="TVA"/>
+
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

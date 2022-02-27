@@ -387,7 +387,7 @@ namespace IntegraControlsXL
 
                 var rateX = CP[1].ValueX * rateFactor;
                 var delayOffset = ((SegmentSize.Y / 2) / (SegmentSize.X * 2) * (cp.Limit.MaxX - cp.X));
-                Debug.Print($"{rateFactor}");
+                //Debug.Print($"{rateFactor}");
                 ctx.BeginFigure(CP[3], true, true);
 
 

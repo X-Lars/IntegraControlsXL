@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <!--<xl:ToneOffset Grid.Column="0" Grid.Row="0"
                        Attack="0"
@@ -64,11 +65,11 @@
                         Time4="20"/>-->
         <xl:LFO Grid.Column="0" Grid.Row="0"
                 DelayTime="0"
-                FadeMode="ONIN"
+                FadeMode="{x:Static core:IntegraLFOFadeMode.ONIN}"
                 FadeTime="0"
                 Offset="-50"
                 Rate="32"
-                Waveform="SIN"/>
+                Waveform="{x:Static core:IntegraLFOWaveform.SIN}"/>
         <!--<xl:LFO Grid.Column="1" Grid.Row="0"
                 DelayTime="64"
                 FadeMode="ONIN"
@@ -80,21 +81,26 @@
         <xl:LFO Grid.Column="0" Grid.Row="1"
                 DelayTime="0"
                 Offset="0"
-                FadeMode="ONIN"
+                FadeMode="{x:Static core:IntegraLFOFadeMode.ONIN}"
                 FadeTime="0"
                 Rate="128"
-                Waveform="BENDUP"/>
+                Waveform="{x:Static core:IntegraLFOWaveform.BENDUP}"/>
 
         <xl:LFO Grid.Column="1" Grid.Row="1"
                 DelayTime="128"
                 Offset="0"
-                FadeMode="ONOUT"
+                FadeMode="{x:Static core:IntegraLFOFadeMode.ONOUT}"
                 FadeTime="64"
                 Rate="0"
-                Waveform="BENDUP"/>
+                Waveform="{x:Static core:IntegraLFOWaveform.BENDUP}"/>
 
         <!--<xl:TVF Grid.Column ="1" Grid.Row="1"
                 Cutoff="64"
                 Resonance="0"/>-->
+        <xl:KeyRangeSlider Grid.Column="0" Grid.Row="2"
+                           ValueLower="{Binding Lower}"
+                           ValueUpper="{Binding Upper}"/>
+        <xl:StructureType Grid.Column="1" Grid.Row="2"
+                          Type="Type2"/>
     </Grid>
 </Window>

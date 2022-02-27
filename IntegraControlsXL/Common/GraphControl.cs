@@ -377,7 +377,6 @@ namespace IntegraControlsXL.Common
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             Cursor = Cursors.Arrow;
-            
         }
 
         /// <summary>
