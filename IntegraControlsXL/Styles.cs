@@ -29,10 +29,11 @@ namespace IntegraControlsXL
             GraphSelectedHighlight = StyleManager.Brush(StylesXL.Brushes.ControlHighlight);
             GraphTint              = StyleManager.Brush(StylesXL.Brushes.Tint);
 
-            GraphBorderPen     = new Pen(GraphBorder, 1);
-            GraphConstraintPen = new Pen(GraphTint, 0.5) { DashStyle = DashStyles.Dash };
-            GraphGridPen       = new Pen(GraphBorder.Alpha(), 0.25) { DashStyle = DashStyles.Dot };
-            GraphSelectedPen   = new Pen(GraphSelected, 1);
+            GraphBorderPen            = new Pen(GraphBorder, 1);
+            GraphConstraintPen        = new Pen(GraphTint, 0.5) { DashStyle = DashStyles.Dash };
+            GraphGridPen              = new Pen(GraphBorder.Alpha(), 0.25) { DashStyle = DashStyles.Dot };
+            GraphSelectedPen          = new Pen(GraphSelected, 1);
+            GraphSelectedHighlightPen = new Pen(GraphSelectedHighlight, 1);
 
             GraphPattern = new DrawingBrush()
             {
@@ -62,6 +63,8 @@ namespace IntegraControlsXL
         public static Pen GraphBorderPen { get; private set; }
         public static Pen GraphConstraintPen { get; private set; }
         public static Pen GraphSelectedPen { get; private set; }
+        public static Pen GraphSelectedHighlightPen { get; private set; }
         public static Pen GraphGridPen { get; private set; }
+
     }
 }

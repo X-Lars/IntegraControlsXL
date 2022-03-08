@@ -18,6 +18,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <!--<xl:ToneOffset Grid.Column="0" Grid.Row="0"
                        Attack="0"
@@ -100,6 +101,12 @@
         <xl:KeyRangeSlider Grid.Column="0" Grid.Row="2"
                            ValueLower="{Binding Lower}"
                            ValueUpper="{Binding Upper}"/>
+        <StackPanel Grid.Column="0" Grid.Row="3">
+            
+            <xl:KeyFadeSlider Min="0" Max="127" Value="64"/>
+            <xl:KeyFadeSlider Min="127" Max="0" Value="64"/>
+            
+        </StackPanel>
         <xl:StructureType Grid.Column="1" Grid.Row="2"
                           Type="Type2"/>
     </Grid>

@@ -1,30 +1,18 @@
-﻿using IntegraControlsXL.Common;
-using IntegraXL.Core;
-using StylesXL;
+﻿using StylesXL;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace IntegraControlsXL
 {
-
-    public enum HandleDirection
-    {
-        Left,
-        Right
-    }
-
-    public class KeyRangeSlider : Control
+    public class RangeSlider : Control
     {
         /// <summary>
         /// The mouse X offset relative to the center of the selected <see cref="ControlPoint"/>.
@@ -54,20 +42,20 @@ namespace IntegraControlsXL
         private double MinX;
         private double MaxX;
 
-        private double _Lower = 0;
-        private double _Upper = 0;
+        private int _Lower = 0;
+        private int _Upper = 0;
 
-        private double Lower
+        private int Lower
         {
             get => _Lower;
             set
             {
-                value = value < 0 ? 0 : value > 127 ? 127 : value;
+                value = value < Min ? Min : value > Max ? Max : value;
 
-                if(_Lower != value)
+                if (_Lower != value)
                 {
                     _Lower = value;
-                    ValueLower = (IntegraKeyRange)value;
+                    ValueLower = value;
 
                     if (value > _Upper)
                         ValueUpper = ValueLower;
@@ -75,20 +63,20 @@ namespace IntegraControlsXL
             }
         }
 
-        private double Upper
+        private int Upper
         {
             get => _Upper;
             set
             {
-                value = value < 0 ? 0 : value > 127 ? 127 : value;
+                value = value < Min ? Min : value > Max ? Max : value;
 
                 if (_Upper != value)
                 {
                     _Upper = value;
 
-                    ValueUpper = (IntegraKeyRange)value;
+                    ValueUpper = value;
 
-                    if(value < _Lower)
+                    if (value < _Lower)
                     {
                         ValueLower = ValueUpper;
                     }
@@ -96,13 +84,13 @@ namespace IntegraControlsXL
             }
         }
 
-        static KeyRangeSlider()
+        static RangeSlider()
         {
             StyleManager.Initialize();
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(KeyRangeSlider), new FrameworkPropertyMetadata(typeof(KeyRangeSlider)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RangeSlider), new FrameworkPropertyMetadata(typeof(RangeSlider)));
         }
 
-        public KeyRangeSlider()
+        public RangeSlider()
         {
             LayoutTransform = new ScaleTransform(1, -1);
             ClipToBounds = true;
@@ -110,45 +98,84 @@ namespace IntegraControlsXL
             Loaded += (s, e) => InitializeSlider();
             StyleManager.StyleChanged += (sender, e) => InvalidateVisual();
 
-            MinWidth  = 50;
+            MinWidth = 50;
             MinHeight = 10;
             //MaxHeight = 10;
 
             Height = double.NaN;
-            Width  = double.NaN;
+            Width = double.NaN;
 
             IsHitTestVisible = true;
         }
 
-        public static readonly DependencyProperty ValueLowerProperty = DependencyProperty.Register(nameof(ValueLower), typeof(IntegraKeyRange), typeof(KeyRangeSlider), new FrameworkPropertyMetadata(IntegraKeyRange.C_, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValueChanged));
+        // TODO: Min Max Value Properties (Velo Range = 1 to 127)
+
+
+
+        public int Min
+        {
+            get { return (int)GetValue(MinProperty); }
+            set { SetValue(MinProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Min.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MinProperty =
+            DependencyProperty.Register(nameof(Min), typeof(int), typeof(RangeSlider), new PropertyMetadata(0));
+
+
+
+        public int Max
+        {
+            get { return (int)GetValue(MaxProperty); }
+            set { SetValue(MaxProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Max.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxProperty =
+            DependencyProperty.Register(nameof(Max), typeof(int), typeof(RangeSlider), new PropertyMetadata(127));
+
+
+
+
+        public static readonly DependencyProperty ValueLowerProperty = DependencyProperty.Register(nameof(ValueLower), typeof(int), typeof(RangeSlider), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValueChanged, CoerceValue));
+
+        private static object CoerceValue(DependencyObject d, object baseValue)
+        {
+            RangeSlider slider = d as RangeSlider;
+            int value = (int)baseValue;
+
+            value = value < slider.Min ? slider.Min : value;
+            value = value > slider.Max ? slider.Max : value;
+
+            return value;
+        }
 
         private static void ValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            KeyRangeSlider slider = d as KeyRangeSlider;
+            ((RangeSlider)d).Update();// slider = d as RangeSlider;
 
-            int oldValue = (int)(IntegraKeyRange)e.OldValue;
-            int newValue = (int)(IntegraKeyRange)e.NewValue;
+            //int oldValue = (int)e.OldValue;
+            //int newValue = (int)e.NewValue;
 
-            if (oldValue == newValue)
-                return;
+            //if (oldValue == newValue)
+            //    return;
 
-            Debug.Print($"Update: {e.Property.Name}");
-            //switch (slider.Index)
-            //{
-            //    case 0:
-            //        if (newValue > (int)slider.ValueUpper)
-            //            slider.ValueUpper = (IntegraScales)newValue;
-            //        break;
-            //    case 1:
-            //        if (newValue < (int)slider.ValueLower)
-            //            slider.ValueLower = (IntegraScales)newValue;
-            //        break;
-            //}
+            ////switch (slider.Index)
+            ////{
+            ////    case 0:
+            ////        if (newValue > (int)slider.ValueUpper)
+            ////            slider.ValueUpper = (IntegraScales)newValue;
+            ////        break;
+            ////    case 1:
+            ////        if (newValue < (int)slider.ValueLower)
+            ////            slider.ValueLower = (IntegraScales)newValue;
+            ////        break;
+            ////}
 
-            slider.Update();
+            //slider.Update();
         }
 
-        public static readonly DependencyProperty ValueUpperProperty = DependencyProperty.Register(nameof(ValueUpper), typeof(IntegraKeyRange), typeof(KeyRangeSlider), new FrameworkPropertyMetadata(IntegraKeyRange.G9, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValueChanged));
+        public static readonly DependencyProperty ValueUpperProperty = DependencyProperty.Register(nameof(ValueUpper), typeof(int), typeof(RangeSlider), new FrameworkPropertyMetadata(127, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, ValueChanged));
 
 
 
@@ -159,18 +186,18 @@ namespace IntegraControlsXL
         }
 
         // Using a DependencyProperty as the backing store for ShowLabels.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowLabelsProperty = DependencyProperty.Register(nameof(ShowLabels), typeof(bool), typeof(KeyRangeSlider), new PropertyMetadata(true));
+        public static readonly DependencyProperty ShowLabelsProperty = DependencyProperty.Register(nameof(ShowLabels), typeof(bool), typeof(RangeSlider), new PropertyMetadata(true));
 
 
-        public IntegraKeyRange ValueLower
+        public int ValueLower
         {
-            get { return (IntegraKeyRange)GetValue(ValueLowerProperty); }
+            get { return (int)GetValue(ValueLowerProperty); }
             set { SetValue(ValueLowerProperty, value); }
         }
 
-        public IntegraKeyRange ValueUpper
+        public int ValueUpper
         {
-            get { return (IntegraKeyRange)GetValue(ValueUpperProperty); }
+            get { return (int)GetValue(ValueUpperProperty); }
             set { SetValue(ValueUpperProperty, value); }
         }
 
@@ -183,7 +210,7 @@ namespace IntegraControlsXL
         {
             StreamGeometry geometry = new StreamGeometry();
 
-            using(StreamGeometryContext ctx = geometry.Open())
+            using (StreamGeometryContext ctx = geometry.Open())
             {
                 var offset = ShowLabels ? 20 : 0;
                 if (direction == HandleDirection.Left)
@@ -210,7 +237,7 @@ namespace IntegraControlsXL
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
-            
+
             var offset = ShowLabels ? 20 : 0;
 
             dc.DrawRectangle(System.Windows.Media.Brushes.Transparent, null, new Rect(0, 0, ActualWidth, ActualHeight));
@@ -254,24 +281,24 @@ namespace IntegraControlsXL
 
                     if (Index == 0)
                     {
-                        label = $"{(string)TypeDescriptor.GetConverter(ValueLower).ConvertTo(ValueLower, typeof(string))}";
+                        label = $"{ValueLower}";
                     }
                     else
                     {
-                        label = $"{(string)TypeDescriptor.GetConverter(ValueUpper).ConvertTo(ValueUpper, typeof(string))}";
+                        label = $"{ValueUpper}";
                     }
 
                     if (!string.IsNullOrEmpty(label))
                     {
                         FormattedText text = new FormattedText(label, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(FontFamily, FontStyle, FontWeight, FontStretches.Normal), FontSize, Foreground, 1.0);
-                        
+
 
                         Geometry geo = text.BuildGeometry(new Point(0, 0));
 
                         TransformGroup textTransform = new TransformGroup();
 
                         textTransform.Children.Add(new ScaleTransform(1, -1, 0, 0));
-                        if(Index == 0)
+                        if (Index == 0)
                             textTransform.Children.Add(new TranslateTransform(LowerX - geo.Bounds.Width / 2, offset));
                         else
                             textTransform.Children.Add(new TranslateTransform(UpperX - geo.Bounds.Width / 2, offset));
@@ -296,7 +323,7 @@ namespace IntegraControlsXL
             MinX = HANDLE_WIDTH;
             MaxX = SizeX - HANDLE_WIDTH;
 
-            Factor = (MaxX - MinX) / 127;
+            Factor = (MaxX - MinX) / (Max - Min);
 
             _Lower = (int)ValueLower;
             _Upper = (int)ValueUpper;
@@ -312,7 +339,6 @@ namespace IntegraControlsXL
 
         private void Update()
         {
-            Debug.Print($"Lower = {ValueLower} | Upper = {ValueUpper}");
             _Lower = (int)ValueLower;
             _Upper = (int)ValueUpper;
 
@@ -329,11 +355,11 @@ namespace IntegraControlsXL
 
             if (InvalidateIndex(mouse, out int index))
             {
-                if(index == 0)
+                if (index == 0)
                 {
                     MouseOffsetX = LowerX - mouse.X;
                 }
-                else if(index == 1)
+                else if (index == 1)
                 {
                     MouseOffsetX = UpperX - mouse.X;
                 }
@@ -357,23 +383,23 @@ namespace IntegraControlsXL
 
             if (e.LeftButton == MouseButtonState.Pressed && Index != -1)
             {
-                if(Index == 0)
+                if (Index == 0)
                 {
                     var x = e.GetPosition(this).X + MouseOffsetX - LowerX;
 
                     if (Math.Abs(x) >= Factor)
                     {
-                        Lower += x / Factor;
+                        Lower += (int)(x / Factor);
                     }
                 }
-                else if(Index == 1)
+                else if (Index == 1)
                 {
-                    
+
                     var x = e.GetPosition(this).X + MouseOffsetX - UpperX;
 
                     if (Math.Abs(x) >= Factor)
                     {
-                        Upper += x / Factor;
+                        Upper += (int)(x / Factor);
                     }
                 }
             }
@@ -419,7 +445,7 @@ namespace IntegraControlsXL
                     break;
                 case Key.Home:
                     if (Index == 0)
-                        Lower = 0;
+                        Lower = Min;
                     else
                         Upper = Lower;
                     break;
@@ -427,7 +453,7 @@ namespace IntegraControlsXL
                     if (Index == 0)
                         Lower = Upper;
                     else
-                        Upper = 127;
+                        Upper = Max;
                     break;
 
                 case Key.Tab:

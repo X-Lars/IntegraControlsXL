@@ -25,11 +25,11 @@ namespace Examples
         public MainWindow()
         {
             InitializeComponent();
-            Lower = IntegraScales.C_;
-            Upper = IntegraScales.G9;
+            Lower = IntegraKeyRange.C_;
+            Upper = IntegraKeyRange.G9;
         }
 
-        public IntegraScales Lower { get; set; }
-        public IntegraScales Upper { get; set; }
+        public IntegraKeyRange Lower { get; set; }
+        public IntegraKeyRange Upper { get; set; }
     }
 }
