@@ -312,7 +312,7 @@ namespace IntegraControlsXL
 
         private void Update()
         {
-            Debug.Print($"Lower = {ValueLower} | Upper = {ValueUpper}");
+            //Debug.Print($"Lower = {ValueLower} | Upper = {ValueUpper}");
             _Lower = (int)ValueLower;
             _Upper = (int)ValueUpper;
 

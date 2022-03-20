@@ -107,7 +107,9 @@
             <xl:KeyFadeSlider Min="127" Max="0" Value="64"/>
             
         </StackPanel>
-        <xl:StructureType Grid.Column="1" Grid.Row="2"
-                          Type="Type2"/>
+        <!--<xl:StructureType Grid.Column="1" Grid.Row="2"
+                          Type="Type2"/>-->
+        <xl:MotionalSurround Grid.Column="1" Grid.Row="2"
+                             PartX="0" PartY="0"/>
     </Grid>
 </Window>
